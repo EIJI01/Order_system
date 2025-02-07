@@ -59,4 +59,27 @@ export class OrderService extends BaseService<Order> {
       await queryRunner.release();
     }
   }
+
+  async findAll(): Promise<Order[]> {
+    try {
+      return await this.orderRepo.find({
+        relations: {
+          user: true,
+        },
+      });
+    } catch (error) {
+      this.logger.error(error.message);
+      return [];
+    }
+  }
+
+  async findAllByUser(userId: number) {
+    return this.orderRepo.find({
+      where: {
+        user: {
+          id: userId,
+        },
+      },
+    });
+  }
 }

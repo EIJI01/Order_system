@@ -26,6 +26,12 @@ export class OrderController {
     return { success: true, data: results };
   }
 
+  @Get('user/all')
+  async findAllByUser(@UserDC('id') userId: number): Promise<Response<Order[]>> {
+    const results = await this.orderService.findAllByUser(userId);
+    return { success: true, data: results };
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<Response<Order>> {
     const result = await this.orderService.findOne(+id);
